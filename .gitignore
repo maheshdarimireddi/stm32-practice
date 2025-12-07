@@ -24,6 +24,11 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Model files (optional, you may want to track these)
-# *.tflite
-# model_data.h
+# Model files (exclude large trained models)
+*.h5
+*.tflite
+*.pb
+*.onnx
+
+# Nested git repos
+stm32-practice/
