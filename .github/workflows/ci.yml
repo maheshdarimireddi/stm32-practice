@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f 2_Desktop_Tools/requirements.txt ]; then pip install -r 2_Desktop_Tools/requirements.txt; fi
+      - name: Run lint
+        run: |
+          echo "No lint configured. Add linters to the workflow or update this step."
+      - name: Run basic tests
+        run: |
+          echo "No tests configured. Add test commands here (pytest, etc)."
