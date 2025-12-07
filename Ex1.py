@@ -168,6 +168,7 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 
+print("Program ended"  )
 print("Program ended")  
 print("Program ended")
 print("Program ended")  
