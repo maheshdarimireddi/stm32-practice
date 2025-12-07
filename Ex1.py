@@ -168,5 +168,4 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 
-# Hello mistor copy
-#jehrererer 
+print("Program ended"  )
