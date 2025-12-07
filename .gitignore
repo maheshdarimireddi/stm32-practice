@@ -32,3 +32,6 @@ Thumbs.db
 
 # Nested git repos
 stm32-practice/
+
+# Exclude Fire folder (old project, use STM32_AI_Project instead)
+Fire/
