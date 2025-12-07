@@ -1,0 +1,114 @@
+{
+  "model_name": "FireDetectionV2",
+  "model_version": "2.0",
+  "description": "Real-time fire detection model for STM32 embedded systems",
+  "framework": "TensorFlow/Keras",
+  "deployment_target": "STM32H743",
+  
+  "input_specification": {
+    "width": 32,
+    "height": 32,
+    "channels": 3,
+    "format": "RGB",
+    "normalization": "0-255 to 0-1"
+  },
+  
+  "output_specification": {
+    "classes": ["no_fire", "fire"],
+    "output_format": "probability",
+    "confidence_threshold": 0.7
+  },
+  
+  "quantization": {
+    "enabled": true,
+    "type": "int8",
+    "size_reduction": "4x",
+    "original_size_kb": 200,
+    "quantized_size_kb": 50
+  },
+  
+  "performance": {
+    "inference_time_ms": 35,
+    "flash_footprint_kb": 50,
+    "ram_footprint_kb": 100,
+    "fps_at_480mhz": 18
+  },
+  
+  "training_data": {
+    "training_samples": 5000,
+    "validation_accuracy": 0.942,
+    "test_accuracy": 0.938,
+    "precision": 0.921,
+    "recall": 0.963
+  },
+  
+  "compatible_mcu": [
+    {
+      "family": "STM32H743",
+      "cpu": "Cortex-M7@480MHz",
+      "flash_mb": 2,
+      "ram_mb": 1,
+      "suitable": true
+    },
+    {
+      "family": "STM32H733",
+      "cpu": "Cortex-M7@480MHz",
+      "flash_mb": 1,
+      "ram_mb": 0.5,
+      "suitable": true,
+      "note": "Reduced model size recommended"
+    },
+    {
+      "family": "STM32F746",
+      "cpu": "Cortex-M7@216MHz",
+      "flash_mb": 1,
+      "ram_mb": 0.3,
+      "suitable": false,
+      "note": "Insufficient RAM"
+    }
+  ],
+  
+  "preprocessing": {
+    "resize_method": "bilinear",
+    "normalization_mean": [0.5, 0.5, 0.5],
+    "normalization_std": [0.5, 0.5, 0.5],
+    "color_space": "RGB"
+  },
+  
+  "postprocessing": {
+    "confidence_threshold": 0.7,
+    "alert_threshold": 0.9,
+    "temporal_smoothing": true,
+    "smoothing_window_frames": 3
+  },
+  
+  "conversion_info": {
+    "converted_date": "2024-01-15",
+    "converter_tool": "stm32_model_converter.py v1.0",
+    "optimization_level": "O2",
+    "compiler": "arm-none-eabi-gcc"
+  },
+  
+  "deployment_checklist": [
+    "✓ Model converted to TFLite format",
+    "✓ Model quantized to int8",
+    "✓ Generated model_data.h C++ header",
+    "✓ Tested on desktop with stm32_ai_testing.py",
+    "✓ Verified accuracy > 93%",
+    "□ Copied to STM32CubeIDE project",
+    "□ Configured compiler include paths",
+    "□ Added TensorFlow Lite library",
+    "□ Compiled successfully",
+    "□ Flashed to STM32 hardware",
+    "□ Validated on hardware sensors"
+  ],
+  
+  "notes": [
+    "Model performs best with 32x32 RGB input images",
+    "Requires preprocessing to normalize to 0-1 range",
+    "Confidence threshold can be adjusted based on use case",
+    "For high sensitivity: use 0.5 threshold",
+    "For high specificity: use 0.85 threshold",
+    "Run desktop tests before hardware deployment"
+  ]
+}

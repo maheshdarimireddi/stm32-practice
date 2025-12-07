@@ -1,0 +1,100 @@
+# STM32 AI Desktop Tools Requirements
+
+## Python Environment Setup
+
+```bash
+python -m venv stm32_ai_env
+# On Windows:
+stm32_ai_env\Scripts\activate
+# On macOS/Linux:
+source stm32_ai_env/bin/activate
+```
+
+## Dependencies
+
+```
+tensorflow>=2.12.0        # For model conversion
+numpy>=1.24.0            # Numerical computing
+opencv-python>=4.7.0     # Image processing for desktop testing
+tflite-converter>=0.1    # TFLite model utilities
+```
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Tool Usage
+
+### 1. Model Converter (stm32_model_converter.py)
+
+Convert Keras models to STM32-compatible C arrays:
+
+```python
+from stm32_model_converter import ModelConverter
+
+# Convert and quantize
+converter = ModelConverter(
+    model_path="fire_detection_model.h5",
+    output_dir="./Models"
+)
+converter.convert_to_tflite(quantize=True, int8=True)
+converter.generate_c_header()
+```
+
+Outputs:
+- `model.tflite` - TensorFlow Lite model
+- `model_data.h` - C header with quantized weights
+
+### 2. Model Tester (stm32_ai_testing.py)
+
+Test models on desktop before deploying to STM32:
+
+```python
+from stm32_ai_testing import STM32Simulator, TestSuite
+
+# Create simulator
+simulator = STM32Simulator(model_path="model.tflite")
+
+# Run test suite
+suite = TestSuite(simulator)
+suite.run_comprehensive_tests(num_samples=100)
+suite.print_report()
+```
+
+Outputs:
+- Accuracy, Precision, Recall, F1-Score
+- Inference time statistics
+- Model memory footprint estimation
+
+## Workflow
+
+1. **Develop on Desktop**: Train/test with `stm32_ai_testing.py`
+2. **Convert Model**: Use `stm32_model_converter.py` to create `model_data.h`
+3. **Integrate to STM32**: Copy generated C files to CubeIDE project
+4. **Test on Hardware**: Flash and validate
+
+## System Requirements
+
+- Python 3.8+
+- TensorFlow 2.12+ (CPU or GPU)
+- 2GB RAM minimum for model conversion
+- Windows/macOS/Linux
+
+## Troubleshooting
+
+**TensorFlow import error**:
+```bash
+pip install --upgrade tensorflow
+```
+
+**CUDA errors** (use CPU version):
+```bash
+pip install tensorflow-cpu
+```
+
+**Model too large** (>1MB):
+- Use dynamic quantization: `converter.convert_to_tflite(quantize=True, int8=True, dynamic=True)`
+- Prune unused weights before conversion
+

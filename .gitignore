@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+env/
+venv/
+*.env
+
+# Virtualenv
+venv/
+ENV/
+
+# VSCode
+.vscode/
+
+# Byte-compiled
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Model files (optional, you may want to track these)
+# *.tflite
+# model_data.h

@@ -1,0 +1,10 @@
+# Login System Requirements
+# tkinter is built-in with Python, no external packages required
+# SQLite3 is also built-in with Python
+
+# To use this project:
+# 1. Python 3.7+
+
+# Optional for enhanced UI (not required):
+# pillow>=9.0.0  # For image support in tkinter
+# ttkbootstrap>=1.6.0  # For modern theme styling
